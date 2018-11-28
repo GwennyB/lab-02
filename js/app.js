@@ -10,5 +10,13 @@ function Animal(animal) {
 
 Animal.allAnimals = [];
 
-
+Animal.readJson = () => {
+  $.get('page_1.json','json')
+    .then(data => {
+      data.forEach(animal => {
+        Animal.allAnimals.push(new Animal(animal))
+      })
+    })
+    .then(Animal.loadAnimals)
+};
 
