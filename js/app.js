@@ -22,7 +22,7 @@ Animal.readJson = () => {
     .then(Animal.loadAnimals)
 };
 
-Animal.loadAnimals = () => Animal.allAnimals.forEach( animal => animal.render());
+// Animal.loadAnimals = () => Animal.allAnimals.forEach( animal => animal.render());
 
 Animal.prototype.render = function() {
   $('main').append('<section class="clone"></section>');
@@ -45,16 +45,19 @@ Animal.prototype.makeList = function() {
 }
 
 Animal.keyFilter = () => {
-  $('select[class="keyfilter"]').on('click', function(event){
+  $('select[class="keyfilter"]').on('change', function(event){
     event.preventDefault();
+    console.log('inside key filter');
     // Animal.clearRender();
     const chosen = [];
-    let keyValue = $(this).val();
+    let keyValue = event.target.value;
+    console.log('keyvalue', keyValue);
     Animal.allAnimals.forEach(animal => {
       if(animal.keyword === keyValue){
         chosen.push(animal);
       }
     })
+    chosen.forEach( animal => animal.render());
   });
 };
 
