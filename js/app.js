@@ -14,7 +14,9 @@ Animal.readJson = () => {
   $.get('data/page-1.json','json')
     .then(data => {
       data.forEach(animal => {
-        Animal.allAnimals.push(new Animal(animal))
+        let thisAnimal = new Animal(animal);
+        Animal.allAnimals.push(thisAnimal);
+        thisAnimal.makeList();
       })
     })
     .then(Animal.loadAnimals)
@@ -40,7 +42,7 @@ Animal.prototype.makeList = function() {
   $('option[class="clone"]').text(this.keyword);
   $('option[class="clone"]').val(this.keyword);
   $('option[class="clone"]').removeClass('clone');
-};
+}
 
 Animal.keyFilter = () => {
 
