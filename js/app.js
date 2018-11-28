@@ -11,7 +11,7 @@ function Animal(animal) {
 Animal.allAnimals = [];
 
 Animal.readJson = () => {
-  $.get('page_1.json','json')
+  $.get('page-1.json','json')
     .then(data => {
       data.forEach(animal => {
         Animal.allAnimals.push(new Animal(animal))
@@ -34,3 +34,5 @@ Animal.prototype.render = function() {
   animalClone.removeClass('clone');
   animalClone.attr('class', this.keyword);
 }
+
+$(() => Animal.readJson());
