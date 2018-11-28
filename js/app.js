@@ -20,3 +20,17 @@ Animal.readJson = () => {
     .then(Animal.loadAnimals)
 };
 
+Animal.loadAnimals = () => Animal.allAnimals.forEach( animal => animal.render());
+
+Animal.prototype.render = function() {
+  $('main').append(<section class="clone"></section>);
+  let animalClone = $('section[class="clone"]');
+  let animalHtml = $('#photo-template').html();
+  animalClone.html(animalHtml);
+
+  animalClone.find('h2').text(this.title);
+  animalClone.find('img').attr('src', this.image_url);
+  animalClone.find('p').text(this.description);
+  animalClone.removeClass('clone');
+  animalClone.attr('class', this.keyword);
+}
