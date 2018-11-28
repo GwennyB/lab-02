@@ -19,10 +19,11 @@ Animal.readJson = () => {
         thisAnimal.makeList();
       })
     })
+    .then(Animal.keyFilter)
     .then(Animal.loadAnimals)
 };
 
-// Animal.loadAnimals = () => Animal.allAnimals.forEach( animal => animal.render());
+Animal.loadAnimals = () => Animal.allAnimals.forEach( animal => animal.render());
 
 Animal.prototype.render = function() {
   $('main').append('<section class="clone"></section>');
@@ -48,7 +49,7 @@ Animal.keyFilter = () => {
   $('select[class="keyfilter"]').on('change', function(event){
     event.preventDefault();
     console.log('inside key filter');
-    // Animal.clearRender();
+    Animal.clearRender();
     const chosen = [];
     let keyValue = event.target.value;
     console.log('keyvalue', keyValue);
@@ -62,7 +63,7 @@ Animal.keyFilter = () => {
 };
 
 Animal.clearRender = () => {
-
+  $('section').hide();
 };
 
 
