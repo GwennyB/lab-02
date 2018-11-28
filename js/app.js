@@ -14,13 +14,15 @@ Animal.readJson = () => {
   $.get('data/page-1.json','json')
     .then(data => {
       data.forEach(animal => {
-        Animal.allAnimals.push(new Animal(animal))
+        let thisAnimal = new Animal(animal);
+        Animal.allAnimals.push(thisAnimal);
+        thisAnimal.makeList();
       })
     })
     .then(Animal.loadAnimals)
 };
 
-Animal.loadAnimals = () => Animal.allAnimals.forEach( animal => animal.render());
+// Animal.loadAnimals = () => Animal.allAnimals.forEach( animal => animal.render());
 
 Animal.prototype.render = function() {
   $('main').append('<section class="clone"></section>');
@@ -34,5 +36,34 @@ Animal.prototype.render = function() {
   animalClone.removeClass('clone');
   animalClone.attr('class', this.keyword);
 }
+
+Animal.prototype.makeList = function() {
+  $('select[class="keyfilter"]').append('<option class="clone"></option>');
+  $('option[class="clone"]').text(this.keyword);
+  $('option[class="clone"]').val(this.keyword);
+  $('option[class="clone"]').removeClass('clone');
+}
+
+Animal.keyFilter = () => {
+  $('select[class="keyfilter"]').on('change', function(event){
+    event.preventDefault();
+    console.log('inside key filter');
+    // Animal.clearRender();
+    const chosen = [];
+    let keyValue = event.target.value;
+    console.log('keyvalue', keyValue);
+    Animal.allAnimals.forEach(animal => {
+      if(animal.keyword === keyValue){
+        chosen.push(animal);
+      }
+    })
+    chosen.forEach( animal => animal.render());
+  });
+};
+
+Animal.clearRender = () => {
+
+};
+
 
 $(() => Animal.readJson());
