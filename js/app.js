@@ -45,7 +45,17 @@ Animal.prototype.makeList = function() {
 }
 
 Animal.keyFilter = () => {
-
+  $('select[class="keyfilter"]').on('click', function(event){
+    event.preventDefault();
+    // Animal.clearRender();
+    const chosen = [];
+    let keyValue = $(this).val();
+    Animal.allAnimals.forEach(animal => {
+      if(animal.keyword === keyValue){
+        chosen.push(animal);
+      }
+    })
+  });
 };
 
 Animal.clearRender = () => {
