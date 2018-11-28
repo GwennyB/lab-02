@@ -35,4 +35,20 @@ Animal.prototype.render = function() {
   animalClone.attr('class', this.keyword);
 }
 
+Animal.prototype.makeList = function() {
+  $('select[class="keyfilter"]').append('<option class="clone"></option>');
+  $('option[class="clone"]').text(this.keyword);
+  $('option[class="clone"]').val(this.keyword);
+  $('option[class="clone"]').removeClass('clone');
+};
+
+Animal.keyFilter = () => {
+
+};
+
+Animal.clearRender = () => {
+
+};
+
+
 $(() => Animal.readJson());
