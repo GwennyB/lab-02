@@ -16,15 +16,22 @@ Animal.readJson = () => {
       data.forEach(animal => {
         let thisAnimal = new Animal(animal);
         Animal.allAnimals.push(thisAnimal);
-        // console.log('thisAnimal',thisAnimal);
-        thisAnimal.makeList();
       })
     })
-    .then(Animal.keyFilter)
     .then(Animal.loadAnimals)
 };
 
-Animal.loadAnimals = () => Animal.allAnimals.forEach( animal => animal.render());
+Animal.loadAnimals = () => {
+  let keywordsList = ['Show All Animals'];
+  Animal.allAnimals.forEach( animal => {
+    animal.render();
+    if (!keywordsList.includes(animal.keyword)) {
+      keywordsList.push(animal.keyword);
+    }
+  });
+  Animal.makeList(keywordsList);
+  Animal.keyFilter();
+};
 
 Animal.prototype.render = function() {
   $('main').append('<section class="clone"></section>');
@@ -39,23 +46,24 @@ Animal.prototype.render = function() {
   animalClone.attr('class', this.keyword);
 }
 
-Animal.prototype.makeList = function() {
-  $('select[class="keyfilter"]').append('<option class="clone"></option>');
-  $('option[class="clone"]').text(this.keyword);
-  $('option[class="clone"]').val(this.keyword);
-  $('option[class="clone"]').removeClass('clone');
-}
+Animal.makeList = function(keywordsList) {
+  keywordsList.forEach ( animal => {
+    $('.keyfilter').append('<option class="clone"></option>');
+    $('option[class="clone"]').text(animal);
+    $('option[class="clone"]').val(animal);
+    $('option[class="clone"]').removeClass('clone');
+  })
+};
 
 Animal.keyFilter = () => {
   $('.keyfilter').on('change',function(event){
     event.preventDefault();
-    console.log('inside key filter');
     Animal.clearRender();
     const chosen = [];
-    let keyValue = event.target.value;
+    let keyValue = $(this).val();
     console.log('keyvalue', keyValue);
     Animal.allAnimals.forEach(animal => {
-      if(animal.keyword === keyValue){
+      if(animal.keyword === keyValue || keyValue === 'Show All Animals'){
         chosen.push(animal);
       }
     })
